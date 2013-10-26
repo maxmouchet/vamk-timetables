@@ -1,4 +1,4 @@
-vamk-timetables
+VAMK Timetable API
 ===============
 
-Timetables API for the Vaasa University of Applied Sciences.
+
