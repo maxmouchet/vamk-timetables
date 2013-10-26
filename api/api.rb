@@ -35,6 +35,10 @@ class API < Sinatra::Base
     headers['Access-Control-Allow-Origin'] = '*'
   end
 
+  get '/' do
+    redirect '/index.html'
+  end
+
   get '/courses' do
     courses = Array.new
 
