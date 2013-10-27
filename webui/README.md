@@ -1,6 +1,5 @@
-CustomCompilationForVamkTT (FrontEnd)
-====================================
+##CustomCompilationForVamkTT (FrontEnd)
 
-To use it: \\
-npm install \\
-grunt dev \\
+To use it:
+  * npm install
+  * grunt dev
