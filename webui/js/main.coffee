@@ -9,15 +9,15 @@ if window.location.host isnt "api.olamas.me"
 else
   domain = ""
 
-listCourses = {
-  "Web Services": "I-IT-4N1"
-  "Microsoft .NET Programming": "I-IT-4N1"
-  "XML Technology": "I-IT-3N1"
-  "Energy Technology ICT": "I-IT-3N1"
-  "Microcontrollers Laboratory": "I-IT-3N1"
-  "Wireless Networks": "I-IT-3N1"
-  "Web Services": "I-IT-4N1"
-}
+recupSave = (data)->
+  if location.host isnt ""
+    save = location.search.split("=")[1]
+    savedCourses = decodeURIComponent(save).split("||")
+    for sCourse in savedCourses
+      splited = sCourse.split("|")
+      for course in data
+        if course.name is splited[0]
+          addCourse(course.id, course.name, splited[1])
 
 listIds = []
 
@@ -39,11 +39,11 @@ bindChangeGroup = ()->
       listIds[currentCourse] = []
       for course in data
         listIds[currentCourse].push(course.id)
-        console.log JSON.stringify(listIds)
 
 format = (item) -> item.name
 
 $.get "#{domain}courses", (data)->
+  recupSave(data)
   $("#coursesPicker").select2
     placeholder: "Select a course"
     data: 
@@ -51,24 +51,25 @@ $.get "#{domain}courses", (data)->
       text: 'name'
     formatSelection: format
     formatResult: format
- 
-$("#coursesPicker").on "change", (e)-> 
-  $("#coursesPicker").attr "disabled", ""
-  if listIds[e.added.id] is undefined
-    $.get "#{domain}groups?course=#{e.added.id}", (listGroup)->
+
+addCourse = (idCourse, name, group)->
+  if listIds[idCourse] is undefined
+    $.get "#{domain}groups?course=#{idCourse}", (listGroup)->
+      newSelect = $("<select />")
       if listGroup.length isnt 1
-        newSelect = $("<select />")
-        for group in listGroup
-          newSelect.append($("<option />").html(group))
-        newLi = $("<li />").html(e.added.name).append($("<br />")).append(newSelect)
+        for dGroup in listGroup
+          newSelect.append($("<option />").html(dGroup))
       else
-        newLi = $("<li />").html(e.added.name+" - "+listGroup[0])
-      $("nav ul").append(newLi.attr("data-id", e.added.id).prepend($("<a />").attr("href", "#").html("X")))
-      $.get "#{domain}courses/#{e.added.id}?group=#{listGroup[0]}", (listEvents)->
+        newSelect.attr("disabled", "")
+        newSelect.append($("<option />").html(listGroup[0]))
+      newLi = $("<li />").html($("<span />").append(name)).append($("<br />")).append(newSelect)
+      $("nav ul").append(newLi.attr("data-id", idCourse).prepend($("<a />").attr("href", "#").html("X")))
+      if group is "" then group = listGroup[0]
+      $.get "#{domain}courses/#{idCourse}?group=#{group}", (listEvents)->
         scheduler.parse(listEvents, "json")
-        listIds[e.added.id] = []
+        listIds[idCourse] = []
         for cEvent in listEvents
-          listIds[e.added.id].push(cEvent.id)
+          listIds[idCourse].push(cEvent.id)
         $("#coursesPicker").select2 "val", ""
         $("#coursesPicker").prop "disabled", null
         bindRemoveCourse()
@@ -81,3 +82,16 @@ $("#coursesPicker").on "change", (e)->
     bindRemoveCourse()
     bindChangeGroup()
     @
+
+$("#coursesPicker").on "change", (e)-> 
+  $("#coursesPicker").attr "disabled", ""
+  addCourse(e.added.id, e.added.name, "")
+
+$("#getLink").click (e)->
+  saveList = ""
+  $("nav ul li").each (index, tag)->
+    if index isnt 0 then saveList += "||" else saveList = ""
+    saveList += $("span:eq(0)", tag).text()+"|"+$("option:selected", tag).text()
+  url = "http://#{location.host}/index.html?save="+encodeURIComponent(saveList)
+  window.prompt "Copy to clipboard: Ctrl+C, Enter", url
+  window.location.href = url
