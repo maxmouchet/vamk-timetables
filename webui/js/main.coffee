@@ -4,6 +4,11 @@ scheduler.config.last_hour = 20;
 
 scheduler.init('scheduler_here', new Date(),"week")
 
+if window.location.host isnt "api.olamas.me"
+  domain = "http://api.olamas.me/"
+else
+  domain = ""
+
 listCourses = {
   "Web Services": "I-IT-4N1"
   "Microsoft .NET Programming": "I-IT-4N1"
@@ -27,7 +32,7 @@ bindRemoveCourse = ()->
 bindChangeGroup = ()->
   $("nav li select").change (e)->
     currentCourse = $(e.target).parent().attr("data-id")
-    $.get "http://api.olamas.me/courses/#{currentCourse}?group=#{$("option:selected", e.target).text()}", (data)->
+    $.get "#{domain}courses/#{currentCourse}?group=#{$("option:selected", e.target).text()}", (data)->
       for cEvent in listIds[currentCourse]
         scheduler.deleteEvent(cEvent)
       scheduler.parse(data, "json")
@@ -38,7 +43,7 @@ bindChangeGroup = ()->
 
 format = (item) -> item.name
 
-$.get "http://api.olamas.me/courses", (data)->
+$.get "#{domain}courses", (data)->
   $("#coursesPicker").select2
     placeholder: "Select a course"
     data: 
@@ -50,7 +55,7 @@ $.get "http://api.olamas.me/courses", (data)->
 $("#coursesPicker").on "change", (e)-> 
   $("#coursesPicker").attr "disabled", ""
   if listIds[e.added.id] is undefined
-    $.get "http://api.olamas.me/groups?course=#{e.added.id}", (listGroup)->
+    $.get "#{domain}groups?course=#{e.added.id}", (listGroup)->
       if listGroup.length isnt 1
         newSelect = $("<select />")
         for group in listGroup
@@ -59,7 +64,7 @@ $("#coursesPicker").on "change", (e)->
       else
         newLi = $("<li />").html(e.added.name+" - "+listGroup[0])
       $("nav ul").append(newLi.attr("data-id", e.added.id).prepend($("<a />").attr("href", "#").html("X")))
-      $.get "http://api.olamas.me/courses/#{e.added.id}?group=#{listGroup[0]}", (listEvents)->
+      $.get "#{domain}courses/#{e.added.id}?group=#{listGroup[0]}", (listEvents)->
         scheduler.parse(listEvents, "json")
         listIds[e.added.id] = []
         for cEvent in listEvents

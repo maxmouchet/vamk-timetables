@@ -1,5 +1,5 @@
 (function() {
-  var bindChangeGroup, bindRemoveCourse, format, listCourses, listIds;
+  var bindChangeGroup, bindRemoveCourse, domain, format, listCourses, listIds;
 
   scheduler.config.readonly = true;
 
@@ -8,6 +8,12 @@
   scheduler.config.last_hour = 20;
 
   scheduler.init('scheduler_here', new Date(), "week");
+
+  if (window.location.host !== "api.olamas.me") {
+    domain = "http://api.olamas.me/";
+  } else {
+    domain = "";
+  }
 
   listCourses = {
     "Web Services": "I-IT-4N1",
@@ -40,7 +46,7 @@
     return $("nav li select").change(function(e) {
       var currentCourse;
       currentCourse = $(e.target).parent().attr("data-id");
-      return $.get("http://api.olamas.me/courses/" + currentCourse + "?group=" + ($("option:selected", e.target).text()), function(data) {
+      return $.get("" + domain + "courses/" + currentCourse + "?group=" + ($("option:selected", e.target).text()), function(data) {
         var cEvent, course, _i, _j, _len, _len1, _ref, _results;
         _ref = listIds[currentCourse];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -64,7 +70,7 @@
     return item.name;
   };
 
-  $.get("http://api.olamas.me/courses", function(data) {
+  $.get("" + domain + "courses", function(data) {
     return $("#coursesPicker").select2({
       placeholder: "Select a course",
       data: {
@@ -79,7 +85,7 @@
   $("#coursesPicker").on("change", function(e) {
     $("#coursesPicker").attr("disabled", "");
     if (listIds[e.added.id] === void 0) {
-      return $.get("http://api.olamas.me/groups?course=" + e.added.id, function(listGroup) {
+      return $.get("" + domain + "groups?course=" + e.added.id, function(listGroup) {
         var group, newLi, newSelect, _i, _len;
         if (listGroup.length !== 1) {
           newSelect = $("<select />");
@@ -92,7 +98,7 @@
           newLi = $("<li />").html(e.added.name + " - " + listGroup[0]);
         }
         $("nav ul").append(newLi.attr("data-id", e.added.id).prepend($("<a />").attr("href", "#").html("X")));
-        return $.get("http://api.olamas.me/courses/" + e.added.id + "?group=" + listGroup[0], function(listEvents) {
+        return $.get("" + domain + "courses/" + e.added.id + "?group=" + listGroup[0], function(listEvents) {
           var cEvent, _j, _len1;
           scheduler.parse(listEvents, "json");
           listIds[e.added.id] = [];
