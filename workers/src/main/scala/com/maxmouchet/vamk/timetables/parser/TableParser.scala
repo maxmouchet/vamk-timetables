@@ -1,4 +1,4 @@
-package com.maxmouchet.vamk.timetable
+package com.maxmouchet.vamk.timetables.parser
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -6,6 +6,7 @@ import org.jsoup.nodes.Element
 
 import scala.collection.JavaConversions._
 import java.net.URL
+import java.io.InputStream
 
 class TableParser(url: String, tableExpression: String, rowExpression: String, columnExpression: String) {
 
@@ -15,10 +16,10 @@ class TableParser(url: String, tableExpression: String, rowExpression: String, c
 
     val (height, width) = getTableDimensions(table)
 
-    var array = Array.ofDim[String](height, width)
+    val array = Array.ofDim[String](height, width)
 
     for ((row, currentRow) <- table.select(rowExpression).view.zipWithIndex) {
-      var currentColumn = 0;
+      var currentColumn = 0
 
       for (cell <- row.select(columnExpression)) {
         var rowspan = 0
@@ -52,7 +53,7 @@ class TableParser(url: String, tableExpression: String, rowExpression: String, c
 
   def getTableDimensions(table: Element): (Int, Int) = {
     val height = table.select(rowExpression).size
-    var width = 0;
+    var width = 0
 
     for (row <- table.select(rowExpression)) {
       val length = row.select(columnExpression).size

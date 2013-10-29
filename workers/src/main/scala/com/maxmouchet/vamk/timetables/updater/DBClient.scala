@@ -1,9 +1,10 @@
-package com.maxmouchet.vamk.timetable
+package com.maxmouchet.vamk.timetables.updater
 
 import org.postgresql.ds.PGPoolingDataSource
 import java.sql.PreparedStatement
 import java.util.Locale
 import java.sql.Timestamp
+import com.maxmouchet.vamk.timetables.parser.Schedule
 
 class DBClient(source: PGPoolingDataSource) {
 
@@ -51,6 +52,25 @@ class DBClient(source: PGPoolingDataSource) {
     var result = -1
 
     val st = conn.prepareStatement("SELECT id FROM courses WHERE name = ?")
+    st.setString(1, name)
+
+    try {
+      val results = st.executeQuery
+      results.next
+      result = results.getInt(1)
+    } catch {
+      case _: Throwable => //
+    } finally {
+      st.close
+    }
+
+    result
+  }
+
+  def findSchedule(name: String) = {
+    var result = -1
+
+    val st = conn.prepareStatement("SELECT id FROM schedules WHERE name = ?")
     st.setString(1, name)
 
     try {

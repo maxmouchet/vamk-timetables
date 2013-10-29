@@ -1,16 +1,19 @@
-package com.maxmouchet.vamk.timetable
+package com.maxmouchet.vamk.timetables.parser
 
 import scala.util.matching.Regex
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
+import com.maxmouchet.vamk.timetables.parser.Schedule
 
-class TimetableParser(table: Array[Array[String]]) {
+class TimetableParser(url: String) {
+
+  val table = new TableParser(url, "table[cellspacing=1]", "tr", "td").parse
 
   val timePattern = new Regex("""(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})""", "startHour", "startMinute", "endHour", "endMinute")
   val datePattern = new Regex("""([^\d]+)(\d{1,2}).(\d{1,2}).(\d{4})""", "name", "day", "month", "year")
 
   val courseNamePattern = new Regex("""^((\w+-(\w+)\s+)|((ALOIT|VARAU)\w+\s+))?(.+)""")
-  val groupNamePattern = new Regex("""(\w-\w{2}-\w{2,3})""")
+  val groupNamePattern = new Regex("""(\w-\w{2,3}-\w{2,3})""")
 
   def parse: Array[Schedule] = {
     var schedules = Vector.empty[Schedule]

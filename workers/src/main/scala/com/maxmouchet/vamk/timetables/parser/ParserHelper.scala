@@ -1,4 +1,4 @@
-package com.maxmouchet.vamk.timetable
+package com.maxmouchet.vamk.timetables.parser
 
 import scala.Array.canBuildFrom
 import scala.util.matching.Regex
@@ -6,6 +6,7 @@ import org.joda.time.DateTime
 import org.joda.time.LocalTime
 import org.joda.time.LocalDate
 import java.lang.Boolean
+import com.maxmouchet.vamk.timetables.parser.Schedule
 
 object ParserHelper {
 
@@ -62,12 +63,12 @@ object ParserHelper {
    */
   def isSchedulesSuccesives(schedule1: Schedule, schedule2: Schedule): Boolean = {
     if (schedule1.startDate.dayOfWeek != schedule2.startDate.dayOfWeek) {
-      return false;
+      return false
     }
 
     //      TODO: Verify which course is the first in time.
 
-    return schedule1.endDate.secondOfDay.get + 900 >= schedule2.startDate.secondOfDay.get
+    schedule1.endDate.secondOfDay.get + 900 >= schedule2.startDate.secondOfDay.get
   }
 
 }
