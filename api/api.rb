@@ -31,7 +31,7 @@ class API < Sinatra::Base
   end
 
   before do
-    @db = PG.connect(@@connect_hash)
+    @db ||= PG.connect(@@connect_hash)
     headers['Access-Control-Allow-Origin'] = '*'
   end
 
