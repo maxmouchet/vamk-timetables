@@ -3,6 +3,7 @@ require 'sinatra/json'
 require 'sinatra/reloader'
 require 'sinatra/cross_origin'
 
+require 'newrelic_rpm'
 require 'json'
 require 'pg'
 
