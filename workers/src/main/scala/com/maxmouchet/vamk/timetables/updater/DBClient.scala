@@ -4,7 +4,7 @@ import org.postgresql.ds.PGPoolingDataSource
 import java.sql.PreparedStatement
 import java.util.Locale
 import java.sql.Timestamp
-import com.maxmouchet.vamk.timetables.parser.Schedule
+import com.maxmouchet.vamk.timetables.parser.timetable.models.Schedule
 
 class DBClient(source: PGPoolingDataSource) {
 

@@ -1,42 +1,38 @@
-package com.maxmouchet.vamk.timetables.parser
+package com.maxmouchet.vamk.timetables.parser.timetable.algorithms
 
 import scala.util.matching.Regex
-import org.joda.time.DateTime
 import org.joda.time.LocalDate
-import com.maxmouchet.vamk.timetables.parser.Schedule
+import com.maxmouchet.vamk.timetables.parser.timetable.settings.{VAMKSettings}
+import com.maxmouchet.vamk.timetables.parser.timetable.models.{TimeInterval, Schedule}
+import com.maxmouchet.vamk.timetables.parser.timetable.ParserHelper
+import com.maxmouchet.vamk.timetables.parser.table.TableParser
 
-class TimetableParser(url: String) {
-
-  val table = new TableParser(url, "table[cellspacing=1]", "tr", "td").parse
-
-  val timePattern = new Regex("""(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})""", "startHour", "startMinute", "endHour", "endMinute")
-  val datePattern = new Regex("""([^\d]+)(\d{1,2}).(\d{1,2}).(\d{4})""", "name", "day", "month", "year")
-
-  val courseNamePattern = new Regex("""^((\w+-(\w+)\s+)|((ALOIT|VARAU)\w+\s+))?(.+)""")
-  val groupNamePattern = new Regex("""(\w-\w{2,3}-\w{2,3})""")
+class VAMKStrategy(url: String, settings: VAMKSettings) extends Strategy {
 
   def parse: Array[Schedule] = {
     var schedules = Vector.empty[Schedule]
 
+    val table = new TableParser(url, com.maxmouchet.vamk.timetables.parser.table.settings.VAMKSettings).parse
+
     // Parse group name in the first row (title).
-    val groupName = groupNamePattern findFirstIn table(0)(0) match {
-      case Some(groupNamePattern(x)) => x
+    val groupName = settings.groupNamePattern findFirstIn table(0)(0) match {
+      case Some(settings.groupNamePattern(x)) => x
       case None => "Unknown"
     }
 
     // Header is the second row.
-    val header = ParserHelper.rowToDateArray(table(1), datePattern)
+    val header = ParserHelper.rowToDateArray(table(1), settings.datePattern)
 
     for (row <- table.drop(2)) {
 
-      val timeInterval = ParserHelper.cellToTimeInterval(row(0), timePattern)
+      val timeInterval = ParserHelper.cellToTimeInterval(row(0), settings.timePattern)
 
       for ((cell, index) <- row.view.zipWithIndex) {
 
         try {
           val schedule = cellToSchedule(cell, header(index), timeInterval, groupName)
 
-          if ("""\w+""".r.findFirstMatchIn(schedule.courseName) != None) {
+          if ( """\w+""".r.findFirstMatchIn(schedule.courseName) != None) {
             var duplicate = false
 
             for (i <- 0 until schedules.length) {
@@ -59,7 +55,9 @@ class TimetableParser(url: String) {
               }
             }
 
-            if (!duplicate) { schedules = schedules :+ schedule }
+            if (!duplicate) {
+              schedules = schedules :+ schedule
+            }
           }
         } catch {
           case _: Throwable => System.err.println("Error while parsing: " + cell)
@@ -74,10 +72,10 @@ class TimetableParser(url: String) {
     val startDate = ParserHelper.mergeDateAndTime(date, timeInterval.startTime)
     val endDate = ParserHelper.mergeDateAndTime(date, timeInterval.endTime)
 
-    val courseName = courseNamePattern.findFirstMatchIn(cell).get.group(6).trim
+    val courseName = settings.courseNamePattern.findFirstMatchIn(cell).get.group(6).trim
 
-    val professor = cell.split("\n")(cell.split("\n").length - 2).trim
-    val room = cell.split("\n").last.trim
+    val professor = settings.getProfessor(cell)
+    val room = settings.getRoom(cell)
 
     new Schedule(courseName, startDate, endDate, professor, room, group)
   }

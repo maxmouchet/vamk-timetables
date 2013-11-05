@@ -1,13 +1,17 @@
 package com.maxmouchet.vamk.timetables.cli
 
 import com.weiglewilczek.slf4s.Logging
-import com.maxmouchet.vamk.timetables.parser.{Schedule, Timetable, TimetableLink}
 import scala.util.matching.Regex
 import com.maxmouchet.vamk.timetables.discoverer.{CallbackOutput, Discoverer}
 import java.net.{URI, URL}
 import scala.collection.mutable
 import com.maxmouchet.vamk.timetables.updater.DBClient
 import org.postgresql.ds.PGPoolingDataSource
+import com.maxmouchet.vamk.timetables.parser.timetable.models.{Timetable, Schedule}
+import com.maxmouchet.vamk.timetables.parser.list.timetable.models.TimetableLink
+import com.maxmouchet.vamk.timetables.parser.timetable.algorithms.VAMKStrategy
+import com.maxmouchet.vamk.timetables.parser.timetable.settings.{IBVAMKSettings, ITVAMKSettings}
+import com.maxmouchet.vamk.timetables.parser.list.week.algorithms.{IBVAMKStrategy, ITVAMKStrategy, Strategy}
 
 object Main extends App with Logging {
 
@@ -52,12 +56,11 @@ object Main extends App with Logging {
         }
       }
 
-      val urls = new mutable.MutableList[URL]
-      urls += new URL("http://www.bet.puv.fi/schedule/P1_13_14/mfw.htm")
-      urls += new URL("http://www.bet.puv.fi/studies/lukujarj/LV_13_14/syksy.htm")
+      val sources = new mutable.HashMap[String, Strategy]
+      sources("http://www.bet.puv.fi/schedule/P1_13_14/mfw.htm") = new ITVAMKStrategy
+      sources("http://www.bet.puv.fi/studies/lukujarj/LV_13_14/syksy.htm") = new IBVAMKStrategy
 
-      val output = new CallbackOutput(doWork)
-      val discoverer = new Discoverer(urls.toArray[URL], output)
+      val discoverer = new Discoverer(sources.toMap[String, Strategy], new CallbackOutput(doWork))
 
       println("Discovering timetables...")
 
@@ -67,21 +70,51 @@ object Main extends App with Logging {
 
       for (timetableLink <- timetables.par) {
         try {
-          for (schedule <- Timetable.fromURL(timetableLink.url).schedules) {
-            schedules += schedule
+          println(timetableLink.url)
+          if (timetableLink.url.contains("studies/lukujarj/LV_13_14")) {
+            for (schedule <- Timetable.parse(new VAMKStrategy(timetableLink.url, IBVAMKSettings)).schedules) {
+              schedules += schedule
+            }
+          } else {
+            for (schedule <- Timetable.parse(new VAMKStrategy(timetableLink.url, ITVAMKSettings)).schedules) {
+              schedules += schedule
+            }
           }
         } catch {
           case e: Exception => println(e)
         }
       }
 
-      println("\n" + schedules.length + " schedules parsed")
+      val schedules_d = new mutable.MutableList[Schedule]
+
+      for (schedule <- schedules.toList) {
+        var duplicate = false
+
+        for (schedule_d <- schedules_d.toList) {
+          if (schedule.courseName.equals(schedule_d.courseName)
+            && schedule.startDate.toString().equals(schedule_d.startDate.toString())
+            && schedule.endDate.toString().equals(schedule_d.endDate.toString())
+            && schedule.room.equals(schedule_d.room.toString)
+          ) {
+            println("Duplicate found")
+            duplicate = true
+          }
+        }
+
+        if (!duplicate) {
+          schedules_d += schedule
+        }
+      }
+
+      println("\n" + schedules.length + " schedules parsed before distinct")
+      println("\n" + schedules_d.length + " schedules after distinct")
+
 
       println("Updating DB...")
 
       val dbClient = new DBClient(source)
       dbClient.dropAllSchedules
-      for (schedule <- schedules.toList) {
+      for (schedule <- schedules_d.toList) {
         dbClient.insertSchedule(schedule)
       }
 

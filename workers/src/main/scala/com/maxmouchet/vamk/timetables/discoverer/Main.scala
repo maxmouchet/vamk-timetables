@@ -27,22 +27,22 @@ object Main extends App {
 
   parser.parse(args, Config()) map {
     config =>
-      val urls = new mutable.MutableList[URL]
-      for (url <- config.urls) {
-        urls += new URL(url)
-      }
-
-      val output = new AMQPOutput(config.amqpHost, config.amqpQueue)
-      val discoverer = new Discoverer(urls.toArray[URL], output)
-
-      while (true) {
-        try {
-          discoverer.discover
-        } catch {
-          case e: Exception => println(e)
-        }
-        Thread.sleep(30000)
-      }
+//      val urls = new mutable.MutableList[URL]
+//      for (url <- config.urls) {
+//        urls += new URL(url)
+//      }
+//
+//      val output = new AMQPOutput(config.amqpHost, config.amqpQueue)
+//      val discoverer = new Discoverer(urls.toArray[URL], output)
+//
+//      while (true) {
+//        try {
+//          discoverer.discover
+//        } catch {
+//          case e: Exception => println(e)
+//        }
+//        Thread.sleep(30000)
+//      }
   } getOrElse {
     // arguments are bad, usage message will have been displayed
   }

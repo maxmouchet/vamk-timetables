@@ -1,9 +1,9 @@
-package com.maxmouchet.vamk.timetables.parser
+package com.maxmouchet.vamk.timetables.parser.list.timetable.models
 
-import com.maxmouchet.vamk.timetables.parser.TimetableLinkType.TimetableLinkType
 import org.json4s.native.JsonMethods._
 import org.json4s.JsonDSL._
 import org.json4s.DefaultFormats
+import com.maxmouchet.vamk.timetables.parser.list.timetable.models.TimetableLinkType.TimetableLinkType
 
 class TimetableLink(val t: TimetableLinkType, val name: String, val url: String) {
 

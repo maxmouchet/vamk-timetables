@@ -3,7 +3,8 @@ package com.maxmouchet.vamk.timetables.parser
 import com.rabbitmq.client.{QueueingConsumer, ConnectionFactory}
 import com.weiglewilczek.slf4s.Logging
 import scala.util.matching.Regex
-import com.maxmouchet.vamk.timetables.parser.{WeekListParser, Timetable, TimetableLink}
+import com.maxmouchet.vamk.timetables.parser.timetable.models.Timetable
+import com.maxmouchet.vamk.timetables.parser.list.timetable.models.TimetableLink
 
 object Main extends App with Logging {
 
@@ -41,10 +42,10 @@ object Main extends App with Logging {
 
         val groupNamePattern = new Regex( """(\w-\w{2}-\w{2,3})""")
         if (groupNamePattern.findFirstMatchIn(link.name).nonEmpty) {
-          for (schedule <- Timetable.fromURL(link.url).schedules) {
-            channel.basicPublish("", config.amqpQueueOut, null, schedule.toJSON.getBytes)
-            println(schedule.toJSON)
-          }
+//          for (schedule <- Timetable.fromURL(link.url).schedules) {
+//            channel.basicPublish("", config.amqpQueueOut, null, schedule.toJSON.getBytes)
+//            println(schedule.toJSON)
+//          }
         }
       }
 

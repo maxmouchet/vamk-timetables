@@ -3,9 +3,9 @@ package com.maxmouchet.vamk.timetables.updater
 import com.weiglewilczek.slf4s.Logging
 import com.rabbitmq.client.{QueueingConsumer, ConnectionFactory}
 import scala.util.matching.Regex
-import com.maxmouchet.vamk.timetables.parser.Schedule
 import org.postgresql.ds.PGPoolingDataSource
 import java.net.URI
+import com.maxmouchet.vamk.timetables.parser.timetable.models.Schedule
 
 object Main extends App with Logging {
 
