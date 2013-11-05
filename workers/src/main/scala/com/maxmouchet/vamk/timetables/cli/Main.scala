@@ -50,7 +50,7 @@ object Main extends App with Logging {
       def doWork(message: String) = {
         val link = TimetableLink.fromJSON(message)
 
-        val groupNamePattern = new Regex( """(\w-\w{2,3}-\w{2,3})""")
+        val groupNamePattern = new Regex( """(\w-\w{2,3}-\w{1,3}-?\d?)""")
         if (groupNamePattern.findFirstMatchIn(link.name).nonEmpty) {
           timetables += link
         }

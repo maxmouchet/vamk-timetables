@@ -3,7 +3,7 @@ package com.maxmouchet.vamk.timetables.parser.timetable.settings
 import scala.util.matching.Regex
 
 object IBVAMKSettings extends VAMKSettings(
-  new Regex( """(\w-\w{2,3}-\w{2,3})"""),
+  new Regex( """(\w-\w{2,3}-\w{1,3}-?\d?)"""),
   new Regex( """^((\w+-(\w+)\s+)|((ALOIT|VARAU)\w+\s+))?(.+)"""),
   new Regex( """([^\d]+)(\d{1,2}).(\d{1,2}).(\d{4})""", "name", "day", "month", "year"),
   new Regex( """(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})""", "startHour", "startMinute", "endHour", "endMinute")
