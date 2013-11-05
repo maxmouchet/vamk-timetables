@@ -70,8 +70,8 @@ object Main extends App with Logging {
 
       for (timetableLink <- timetables.par) {
         try {
+          println(timetableLink.url)
           if (timetableLink.url.contains("studies/lukujarj/LV_13_14")) {
-            println(timetableLink.url)
             for (schedule <- Timetable.parse(new VAMKStrategy(timetableLink.url, IBVAMKSettings)).schedules) {
               schedules += schedule
             }
@@ -85,9 +85,28 @@ object Main extends App with Logging {
         }
       }
 
-      println("\n" + schedules.length + " schedules parsed before distinct")
+      val schedules_d = new mutable.MutableList[Schedule]
 
-      val schedules_d = schedules.distinct
+      for (schedule <- schedules.toList) {
+        var duplicate = false
+
+        for (schedule_d <- schedules_d.toList) {
+          if (schedule.courseName.equals(schedule_d.courseName)
+            && schedule.startDate.toString().equals(schedule_d.startDate.toString())
+            && schedule.endDate.toString().equals(schedule_d.endDate.toString())
+            && schedule.room.equals(schedule_d.room.toString)
+          ) {
+            println("Duplicate found")
+            duplicate = true
+          }
+        }
+
+        if (!duplicate) {
+          schedules_d += schedule
+        }
+      }
+
+      println("\n" + schedules.length + " schedules parsed before distinct")
       println("\n" + schedules_d.length + " schedules after distinct")
 
 
