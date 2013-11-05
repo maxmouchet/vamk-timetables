@@ -95,8 +95,8 @@ object Main extends App with Logging {
             && schedule.startDate.toString().equals(schedule_d.startDate.toString())
             && schedule.endDate.toString().equals(schedule_d.endDate.toString())
             && schedule.room.equals(schedule_d.room.toString)
+            && schedule.group.equals(schedule_d.group.toString)
           ) {
-            println("Duplicate found")
             duplicate = true
           }
         }
