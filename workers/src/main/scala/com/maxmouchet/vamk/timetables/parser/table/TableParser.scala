@@ -1,4 +1,4 @@
-package com.maxmouchet.vamk.timetables.parser
+package com.maxmouchet.vamk.timetables.parser.table
 
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -7,21 +7,22 @@ import org.jsoup.nodes.Element
 import scala.collection.JavaConversions._
 import java.net.URL
 import java.io.InputStream
+import com.maxmouchet.vamk.timetables.parser.table.settings.Settings
 
-class TableParser(url: String, tableExpression: String, rowExpression: String, columnExpression: String) {
+class TableParser(url: String, settings: Settings) {
 
   def parse: Array[Array[String]] = {
     val document = Jsoup.parse(new URL(url).openStream(), "ISO-8859-1", url)
-    val table = document.select(tableExpression).first
+    val table = document.select(settings.tableExpression).first
 
     val (height, width) = getTableDimensions(table)
 
     val array = Array.ofDim[String](height, width)
 
-    for ((row, currentRow) <- table.select(rowExpression).view.zipWithIndex) {
+    for ((row, currentRow) <- table.select(settings.rowExpression).view.zipWithIndex) {
       var currentColumn = 0
 
-      for (cell <- row.select(columnExpression)) {
+      for (cell <- row.select(settings.columnExpression)) {
         var rowspan = 0
 
         try {
@@ -52,11 +53,11 @@ class TableParser(url: String, tableExpression: String, rowExpression: String, c
   }
 
   def getTableDimensions(table: Element): (Int, Int) = {
-    val height = table.select(rowExpression).size
+    val height = table.select(settings.rowExpression).size
     var width = 0
 
-    for (row <- table.select(rowExpression)) {
-      val length = row.select(columnExpression).size
+    for (row <- table.select(settings.rowExpression)) {
+      val length = row.select(settings.columnExpression).size
       if (length > width) { width = length }
     }
 

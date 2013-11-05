@@ -1,4 +1,4 @@
-package com.maxmouchet.vamk.timetables.parser
+package com.maxmouchet.vamk.timetables.parser.timetable.models
 
 import org.joda.time.LocalTime
 

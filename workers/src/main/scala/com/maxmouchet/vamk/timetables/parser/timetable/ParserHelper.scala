@@ -1,4 +1,4 @@
-package com.maxmouchet.vamk.timetables.parser
+package com.maxmouchet.vamk.timetables.parser.timetable
 
 import scala.Array.canBuildFrom
 import scala.util.matching.Regex
@@ -6,7 +6,7 @@ import org.joda.time.DateTime
 import org.joda.time.LocalTime
 import org.joda.time.LocalDate
 import java.lang.Boolean
-import com.maxmouchet.vamk.timetables.parser.Schedule
+import com.maxmouchet.vamk.timetables.parser.timetable.models.{TimeInterval, Schedule}
 
 object ParserHelper {
 
