@@ -60,9 +60,9 @@ class API < Sinatra::Base
 
     query = ''
     if params[:group]
-      query = "SELECT schedules.id, schedules.room, schedules.professor, schedules.start_time, schedules.end_time, schedules.group, courses.name FROM schedules INNER JOIN courses ON schedules.course_id = courses.id WHERE courses.id = #{ params[:id] } AND schedules.group = '#{ params[:group] }'"
+      query = "SELECT DISTINCT schedules.id, schedules.room, schedules.professor, schedules.start_time, schedules.end_time, schedules.group, courses.name FROM schedules INNER JOIN courses ON schedules.course_id = courses.id WHERE courses.id = #{ params[:id] } AND schedules.group = '#{ params[:group] }'"
     else
-      query = "SELECT schedules.id, schedules.room, schedules.professor, schedules.start_time, schedules.end_time, schedules.group, courses.name FROM schedules INNER JOIN courses ON schedules.course_id = courses.id WHERE courses.id = #{ params[:id] }"
+      query = "SELECT DISTINCT schedules.id, schedules.room, schedules.professor, schedules.start_time, schedules.end_time, schedules.group, courses.name FROM schedules INNER JOIN courses ON schedules.course_id = courses.id WHERE courses.id = #{ params[:id] }"
     end
 
     @db.exec(query) do |results|

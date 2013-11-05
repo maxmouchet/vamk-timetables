@@ -56,10 +56,6 @@ object Main extends App with Logging {
         }
       }
 
-      //      val urls = new mutable.MutableList[URL]
-      //      urls += new URL("http://www.bet.puv.fi/schedule/P1_13_14/mfw.htm")
-      //      urls += new URL("http://www.bet.puv.fi/studies/lukujarj/LV_13_14/syksy.htm")
-
       val sources = new mutable.HashMap[String, Strategy]
       sources("http://www.bet.puv.fi/schedule/P1_13_14/mfw.htm") = new ITVAMKStrategy
       sources("http://www.bet.puv.fi/studies/lukujarj/LV_13_14/syksy.htm") = new IBVAMKStrategy
@@ -78,12 +74,10 @@ object Main extends App with Logging {
             println(timetableLink.url)
             for (schedule <- Timetable.parse(new VAMKStrategy(timetableLink.url, IBVAMKSettings)).schedules) {
               schedules += schedule
-              println(schedule.toJSON)
             }
           } else {
             for (schedule <- Timetable.parse(new VAMKStrategy(timetableLink.url, ITVAMKSettings)).schedules) {
               schedules += schedule
-              println(schedule.toJSON)
             }
           }
         } catch {
