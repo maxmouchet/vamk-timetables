@@ -11,3 +11,5 @@ gem 'sinatra-contrib', '~> 1.4.1'
 gem 'pg', '~> 0.17.0'
 
 gem 'newrelic_rpm'
+
+gem 'vmstat', '~> 2.0.0'

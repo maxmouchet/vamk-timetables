@@ -33,6 +33,7 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    vmstat (2.0.0)
 
 PLATFORMS
   ruby
@@ -44,3 +45,4 @@ DEPENDENCIES
   sinatra (~> 1.4.4)
   sinatra-contrib (~> 1.4.1)
   unicorn (~> 4.6.3)
+  vmstat (~> 2.0.0)

@@ -3,6 +3,7 @@ require 'sinatra/json'
 require 'sinatra/reloader'
 
 require 'newrelic_rpm'
+require 'vmstat'
 require 'json'
 
 require './db_client'
@@ -53,5 +54,19 @@ class API < Sinatra::Base
     json @db.get_groups(params[:course])
   end
 
+  get '/status' do
+    output = ''
+    status = Vmstat.snapshot
+
+    output += "Instance started at #{ status.boot_time }\n"
+    output += "Load average: #{ status.load_average.one_minute }\n"
+    output += "Free memory: #{ status.memory.free }\n"
+
+    output
+  end
+
+  get '/log' do
+    File.read('/root/last-parser-run.log')
+  end
 
 end
