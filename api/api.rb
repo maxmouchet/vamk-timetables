@@ -4,11 +4,14 @@ require 'sinatra/reloader'
 
 require 'newrelic_rpm'
 require 'json'
-require 'pg'
+
+require './db_client'
 
 class API < Sinatra::Base
 
   configure do
+    enable :logging
+
     uri = ENV['DATABASE_URL'] ? URI.parse(ENV['DATABASE_URL']) : URI.parse('postgres://maxmouchet:1234@localhost:5432/timetables')
 
     username = uri.userinfo
@@ -28,7 +31,7 @@ class API < Sinatra::Base
   end
 
   before do
-    @db ||= PG.connect(@@connect_hash)
+    @db ||= DBClient.new(@@connect_hash)
 
     # Enable CORS
     headers['Access-Control-Allow-Origin'] = '*'
@@ -39,63 +42,15 @@ class API < Sinatra::Base
   end
 
   get '/courses' do
-    courses = Array.new
-
-    @db.exec('SELECT * FROM courses') do |results|
-      results.each do |course|
-        courses << {
-          id: course.values_at('id').first,
-          name: course.values_at('name').first.strip
-        }
-      end
-    end
-
-    json courses
+    json @db.get_courses
   end
 
   get '/courses/:id' do
-    schedules = Array.new
-
-    query = ''
-    if params[:group]
-      query = "SELECT DISTINCT schedules.id, schedules.room, schedules.professor, schedules.start_time, schedules.end_time, schedules.group, courses.name FROM schedules INNER JOIN courses ON schedules.course_id = courses.id WHERE courses.id = #{ params[:id] } AND schedules.group = '#{ params[:group] }'"
-    else
-      query = "SELECT DISTINCT schedules.id, schedules.room, schedules.professor, schedules.start_time, schedules.end_time, schedules.group, courses.name FROM schedules INNER JOIN courses ON schedules.course_id = courses.id WHERE courses.id = #{ params[:id] }"
-    end
-
-    @db.exec(query) do |results|
-      results.each do |schedule|
-        p schedule
-        schedules << {
-          id: schedule.values_at('id').first,
-          text: "#{ schedule.values_at('name').first.strip }\n#{ schedule.values_at('room').first.strip }",
-          start_date: DateTime.parse(schedule.values_at('start_time').first).strftime('%m/%d/%Y %H:%M'),
-          end_date: DateTime.parse(schedule.values_at('end_time').first).strftime('%m/%d/%Y %H:%M')
-        }
-      end
-    end
-
-
-    json schedules
+    json @db.get_course(params[:id], params[:group])
   end
 
   get '/groups' do
-    groups = Array.new
-
-    query = ''
-    if params[:course]
-      query = "SELECT schedules.group FROM schedules WHERE schedules.course_id = #{ params[:course] } GROUP BY schedules.group"
-    else
-      query = 'SELECT schedules.group FROM schedules GROUP BY schedules.group'
-    end
-
-    @db.exec(query) do |results|
-      results.each do |group|
-        groups << group.values_at('group').first.strip
-      end
-    end
-
-    json groups
+    json @db.get_groups(params[:course])
   end
 
 
