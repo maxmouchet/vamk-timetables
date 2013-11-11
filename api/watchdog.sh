@@ -6,7 +6,7 @@ else
     case $? in
         2) service vamk-timetable-api restart ;;
         4) service vamk-timetable-api restart ;;
-        5) service vamk-timetable-api restart ;;
-        *) echo 'Other Error!' ;;
+        5) service vamk-timetable-api restart && service postgres restart ;;
+        *) service vamk-timetable-api restart ;;
     esac
 fi
