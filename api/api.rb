@@ -1,7 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/json'
 require 'sinatra/reloader'
-require 'sinatra/cross_origin'
 
 require 'newrelic_rpm'
 require 'json'
@@ -10,8 +9,6 @@ require 'pg'
 class API < Sinatra::Base
 
   configure do
-    enable :cross_origin
-
     uri ||= URI.parse(ENV['DATABASE_URL'])
     uri ||= URI.parse('postgres://maxmouchet@localhost/timetables')
 
@@ -33,6 +30,8 @@ class API < Sinatra::Base
 
   before do
     @db ||= PG.connect(@@connect_hash)
+
+    # Enable CORS
     headers['Access-Control-Allow-Origin'] = '*'
   end
 
