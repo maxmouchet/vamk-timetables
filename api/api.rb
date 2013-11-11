@@ -10,6 +10,8 @@ require './db_client'
 class API < Sinatra::Base
 
   configure do
+    enable :logging
+
     uri = ENV['DATABASE_URL'] ? URI.parse(ENV['DATABASE_URL']) : URI.parse('postgres://maxmouchet:1234@localhost:5432/timetables')
 
     username = uri.userinfo
