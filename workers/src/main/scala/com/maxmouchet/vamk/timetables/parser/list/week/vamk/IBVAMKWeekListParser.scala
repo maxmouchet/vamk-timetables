@@ -1,11 +1,12 @@
-package com.maxmouchet.vamk.timetables.parser.list.week.algorithms
+package com.maxmouchet.vamk.timetables.parser.list.week.vamk
 
 import scala.util.matching.Regex
 import com.maxmouchet.vamk.timetables.parser.list.models.Week
 import scala.collection.mutable
 import org.jsoup.Jsoup
+import com.maxmouchet.vamk.timetables.parser.list.week.WeekListParser
 
-class IBVAMKStrategy extends Strategy {
+class IBVAMKWeekListParser extends WeekListParser {
 
   val weekPattern = new Regex( """(\d{2})""")
 

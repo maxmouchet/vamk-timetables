@@ -1,4 +1,4 @@
-package com.maxmouchet.vamk.timetables.discoverer
+package com.maxmouchet.vamk.timetables.discoverer.outputs
 
 class CallbackOutput(callback: (String) => Any) extends Output {
 

@@ -1,31 +1,36 @@
-package com.maxmouchet.vamk.timetables.parser.timetable.algorithms
+package com.maxmouchet.vamk.timetables.parser.timetable.vamk
 
+import com.maxmouchet.vamk.timetables.parser.timetable.{ParserHelper, TimetableParser}
+import com.maxmouchet.vamk.timetables.parser.timetable.models.{Timetable, TimeInterval, Schedule}
+import com.maxmouchet.vamk.timetables.parser.table.HTMLTableParser
 import scala.util.matching.Regex
 import org.joda.time.LocalDate
-import com.maxmouchet.vamk.timetables.parser.timetable.settings.{VAMKSettings}
-import com.maxmouchet.vamk.timetables.parser.timetable.models.{TimeInterval, Schedule}
-import com.maxmouchet.vamk.timetables.parser.timetable.ParserHelper
-import com.maxmouchet.vamk.timetables.parser.table.TableParser
+import com.maxmouchet.vamk.timetables.parser.table.sources.TableSource
+import com.maxmouchet.vamk.timetables.parser.timetable.cell.CellParser
 
-class VAMKStrategy(url: String, settings: VAMKSettings) extends Strategy {
+class VAMKTimetableParser(tableSource: TableSource, cellParser: CellParser) extends TimetableParser {
 
-  def parse: Array[Schedule] = {
+  val groupPattern = new Regex( """(\w-\w{2,3}-\w{1,3}-?\d?)""")
+  val datePattern = new Regex( """([^\d]+)(\d{1,2}).(\d{1,2}).(\d{4})""", "name", "day", "month", "year")
+  val timePattern = new Regex( """(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})""", "startHour", "startMinute", "endHour", "endMinute")
+
+  def parse: Timetable = {
     var schedules = Vector.empty[Schedule]
 
-    val table = new TableParser(url, com.maxmouchet.vamk.timetables.parser.table.settings.VAMKSettings).parse
+    val table = tableSource.getTable
 
     // Parse group name in the first row (title).
-    val groupName = settings.groupNamePattern findFirstIn table(0)(0) match {
-      case Some(settings.groupNamePattern(x)) => x
+    val groupName = groupPattern findFirstIn table(0)(0) match {
+      case Some(groupPattern(x)) => x
       case None => "Unknown"
     }
 
     // Header is the second row.
-    val header = ParserHelper.rowToDateArray(table(1), settings.datePattern)
+    val header = ParserHelper.rowToDateArray(table(1), datePattern)
 
     for (row <- table.drop(2)) {
 
-      val timeInterval = ParserHelper.cellToTimeInterval(row(0), settings.timePattern)
+      val timeInterval = ParserHelper.cellToTimeInterval(row(0), timePattern)
 
       for ((cell, index) <- row.view.zipWithIndex) {
 
@@ -60,24 +65,22 @@ class VAMKStrategy(url: String, settings: VAMKSettings) extends Strategy {
             }
           }
         } catch {
-          case _: Throwable => System.err.println("Error while parsing: " + cell)
+          case e: Exception => System.err.println("Error (" + e.toString + ") while parsing: " + cell)
         }
       }
     }
 
-    schedules.toArray
+    new Timetable(schedules.toArray)
   }
 
   def cellToSchedule(cell: String, date: LocalDate, timeInterval: TimeInterval, group: String): Schedule = {
     val startDate = ParserHelper.mergeDateAndTime(date, timeInterval.startTime)
     val endDate = ParserHelper.mergeDateAndTime(date, timeInterval.endTime)
 
-    val courseName = settings.courseNamePattern.findFirstMatchIn(cell).get.group(6).trim
+    val course = cellParser.getCourse(cell)
+    val professor = cellParser.getProfessor(cell)
+    val room = cellParser.getRoom(cell)
 
-    val professor = settings.getProfessor(cell)
-    val room = settings.getRoom(cell)
-
-    new Schedule(courseName, startDate, endDate, professor, room, group)
+    new Schedule(course, startDate, endDate, professor, room, group)
   }
-
 }

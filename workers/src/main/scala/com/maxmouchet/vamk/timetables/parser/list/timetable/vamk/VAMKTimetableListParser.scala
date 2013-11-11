@@ -1,4 +1,4 @@
-package com.maxmouchet.vamk.timetables.parser.list.timetable.algorithms
+package com.maxmouchet.vamk.timetables.parser.list.timetable.vamk
 
 import org.jsoup.Jsoup
 import scala.collection.mutable.MutableList
@@ -9,8 +9,9 @@ import scala.collection.JavaConversions._
 import scala.collection.mutable
 import java.io.File
 import com.maxmouchet.vamk.timetables.parser.list.timetable.models.{TimetableLink, TimetableLinkType}
+import com.maxmouchet.vamk.timetables.parser.list.timetable.TimetableListParser
 
-class TimetableListParser(url: String) {
+class VAMKTimetableListParser(url: String) extends TimetableListParser {
 
   def parse: Array[TimetableLink] = {
     var links = mutable.MutableList[TimetableLink]()
