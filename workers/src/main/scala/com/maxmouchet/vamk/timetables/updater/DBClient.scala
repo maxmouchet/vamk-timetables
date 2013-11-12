@@ -24,7 +24,7 @@ class DBClient(source: PGPoolingDataSource) {
       courseId = findCourseId(schedule.courseName)
     }
 
-    val st = conn.prepareStatement("INSERT INTO schedules(course_id, room, professor, start_time, end_time, \"group\") VALUES(?, ?, ?, ?, ?, ?)")
+    val st = conn.prepareStatement("INSERT INTO schedules(course_id, room, professor, start_datetime, end_datetime, \"group\") VALUES(?, ?, ?, ?, ?, ?)")
     st.setInt(1, courseId)
     st.setString(2, schedule.room)
     st.setString(3, schedule.professor)

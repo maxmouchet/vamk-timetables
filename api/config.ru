@@ -1,6 +1,4 @@
-require './api'
+# This file is used by Rack-based servers to start the application.
 
-require 'newrelic_rpm'
-NewRelic::Agent.after_fork(:force_reconnect => true)
-
-run API
+require ::File.expand_path('../config/environment',  __FILE__)
+run Rails.application
