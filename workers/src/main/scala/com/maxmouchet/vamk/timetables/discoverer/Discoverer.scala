@@ -2,9 +2,10 @@ package com.maxmouchet.vamk.timetables.discoverer
 
 import java.net.URL
 import com.maxmouchet.vamk.timetables.parser.list.week.models.WeekList
-import com.maxmouchet.vamk.timetables.parser.list.week.algorithms.Strategy
+import com.maxmouchet.vamk.timetables.discoverer.outputs.Output
+import com.maxmouchet.vamk.timetables.parser.list.week.WeekListParser
 
-class Discoverer(val sources: Map[String, Strategy], val output: Output) {
+class Discoverer(val sources: Map[String, WeekListParser], val output: Output) {
 
   def discover = {
     for (source <- sources) {

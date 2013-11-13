@@ -1,4 +1,4 @@
-package com.maxmouchet.vamk.timetables.parser
+package com.maxmouchet.vamk.timetables.parser.timetable.cli
 
 import com.rabbitmq.client.{QueueingConsumer, ConnectionFactory}
 import com.weiglewilczek.slf4s.Logging
@@ -6,9 +6,9 @@ import scala.util.matching.Regex
 import com.maxmouchet.vamk.timetables.parser.timetable.models.Timetable
 import com.maxmouchet.vamk.timetables.parser.list.timetable.models.TimetableLink
 
-object Main extends App with Logging {
+object Main extends App {
 
-  val name = "vamk-timetables-parser"
+  val name = "vamk-timetable-parser"
 
   val parser = new scopt.OptionParser[Config](name) {
     head(name, "0.1")

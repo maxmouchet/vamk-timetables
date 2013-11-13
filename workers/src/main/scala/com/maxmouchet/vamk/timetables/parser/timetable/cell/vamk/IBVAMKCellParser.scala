@@ -1,13 +1,11 @@
-package com.maxmouchet.vamk.timetables.parser.timetable.settings
+package com.maxmouchet.vamk.timetables.parser.timetable.cell.vamk
 
 import scala.util.matching.Regex
+import com.maxmouchet.vamk.timetables.parser.timetable.cell.CellParser
 
-object IBVAMKSettings extends VAMKSettings(
-  new Regex( """(\w-\w{2,3}-\w{1,3}-?\d?)"""),
-  new Regex( """^((\w+-(\w+)\s+)|((ALOIT|VARAU)\w+\s+))?(.+)"""),
-  new Regex( """([^\d]+)(\d{1,2}).(\d{1,2}).(\d{4})""", "name", "day", "month", "year"),
-  new Regex( """(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})""", "startHour", "startMinute", "endHour", "endMinute")
-) {
+class IBVAMKCellParser extends CellParser with VAMKCellParser {
+
+  def getCourse(cell: String): String = coursePattern.findFirstMatchIn(cell).get.group(6).trim
 
   def getProfessor(cell: String): String = {
     val professorNamePattern = new Regex( """(^[A-Z]{2,4}$)""")
@@ -28,7 +26,7 @@ object IBVAMKSettings extends VAMKSettings(
   }
 
   def getRoom(cell: String): String = {
-    val roomNamePattern = new Regex("""(^[A-Z]+\d+)""")
+    val roomNamePattern = new Regex( """(^[A-Z]+\d+)""")
 
     var roomName = ""
     var i = 0
@@ -44,4 +42,5 @@ object IBVAMKSettings extends VAMKSettings(
 
     roomName
   }
+
 }

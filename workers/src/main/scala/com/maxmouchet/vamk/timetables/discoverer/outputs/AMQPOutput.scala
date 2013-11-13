@@ -1,4 +1,4 @@
-package com.maxmouchet.vamk.timetables.discoverer
+package com.maxmouchet.vamk.timetables.discoverer.outputs
 
 import com.rabbitmq.client.ConnectionFactory
 

@@ -1,4 +1,4 @@
-package com.maxmouchet.vamk.timetables.parser.list.week.algorithms
+package com.maxmouchet.vamk.timetables.parser.list.week.vamk
 
 import scala.util.matching.Regex
 import org.jsoup.Jsoup
@@ -6,8 +6,9 @@ import scala.collection.mutable.MutableList
 import scala.collection.mutable
 import java.net.URL
 import com.maxmouchet.vamk.timetables.parser.list.models.Week
+import com.maxmouchet.vamk.timetables.parser.list.week.WeekListParser
 
-class ITVAMKStrategy extends Strategy {
+class ITVAMKWeekListParser extends WeekListParser {
 
   val weekPattern = new Regex( """^(\d{2}):\s(\d{1,2}\.\d{1,2}\.\d{4})\.{3}(\d{1,2}\.\d{1,2}\.\d{4})""", "number", "startDate", "endDate")
 
