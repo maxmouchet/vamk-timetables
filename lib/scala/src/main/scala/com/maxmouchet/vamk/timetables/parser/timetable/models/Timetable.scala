@@ -1,3 +1,5 @@
 package com.maxmouchet.vamk.timetables.parser.timetable.models
 
-case class Timetable(schedules: Array[Schedule])
+import org.joda.time.LocalDate
+
+case class Timetable(group: String, startDate: LocalDate, endDate: LocalDate, schedules: Array[Schedule])
