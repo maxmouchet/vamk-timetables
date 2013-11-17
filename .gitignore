@@ -92,3 +92,5 @@ pickle-email-*.html
 !.keep
 /config/database.yml
 
+/Procfile
+
