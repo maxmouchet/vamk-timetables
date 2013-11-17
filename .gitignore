@@ -90,4 +90,5 @@ rerun.txt
 pickle-email-*.html
 .project
 !.keep
+/config/database.yml
 

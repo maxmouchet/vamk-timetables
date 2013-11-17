@@ -1,7 +1,8 @@
 development:
   adapter: postgresql
-  database: timetables2
-  username: maxmouchet
+  database:
+  username:
+  password:
   host: localhost
 
 production:
