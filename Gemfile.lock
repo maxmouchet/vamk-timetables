@@ -160,5 +160,6 @@ DEPENDENCIES
   sdoc
   sidekiq (~> 2.16)
   sinatra (>= 1.3.0)
+  therubyracer
   turbolinks
   uglifier (>= 1.3.0)
