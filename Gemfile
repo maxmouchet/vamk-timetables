@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-#ruby=jruby-1.7.4
-ruby '1.9.3', :engine => 'jruby', :engine_version => '1.7.4'
+#ruby=jruby-1.7.8
+ruby '1.9.3', :engine => 'jruby', :engine_version => '1.7.8'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
@@ -47,6 +47,7 @@ end
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
+gem 'foreman'
 gem 'puma'
 
 # Use Capistrano for deployment
