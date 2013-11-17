@@ -50,6 +50,8 @@ end
 gem 'foreman'
 gem 'puma'
 
+gem 'newrelic_rpm'
+
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 

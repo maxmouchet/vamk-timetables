@@ -69,6 +69,7 @@ GEM
     mime-types (1.25)
     minitest (4.7.5)
     multi_json (1.8.2)
+    newrelic_rpm (3.6.9.171)
     polyglot (0.3.3)
     puma (2.6.0-java)
       rack (>= 1.1, < 2.0)
@@ -156,6 +157,7 @@ DEPENDENCIES
   foreman
   jbuilder (~> 1.2)
   jquery-rails
+  newrelic_rpm
   puma
   rails (= 4.0.0)
   rails_12factor
