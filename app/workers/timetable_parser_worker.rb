@@ -1,5 +1,5 @@
 require 'java'
-require 'vamk-timetables-workers-assembly-1.0.jar'
+require "#{ Rails.root }/lib/scala/target/scala-2.10/vamk-timetables-workers-assembly-1.0.jar"
 
 java_import 'com.maxmouchet.vamk.timetables.parser.table.HTMLTableParser'
 java_import 'com.maxmouchet.vamk.timetables.parser.table.sources.RemoteTableSource'
