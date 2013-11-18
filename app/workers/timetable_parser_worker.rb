@@ -10,14 +10,16 @@ java_import 'com.maxmouchet.vamk.timetables.parser.timetable.vamk.VAMKTimetableP
 class TimetableParserWorker
   include Sidekiq::Worker
 
-  def perform(url)
+  def perform(url, type)
     logger.info { "Initializing TimetableParserWorker with url = #{ url }" }
 
     settings = Settings.new('table[cellspacing=1]', 'tr', 'td')
     table_parser = HTMLTableParser.new(url, settings)
     table_source = RemoteTableSource.new(table_parser)
 
-    cell_parser = ITVAMKCellParser.new
+    cell_parser = ITVAMKCellParser.new if type == 'IT'
+    cell_parser = IBVAMKCellParser.new if type == 'IB'
+
     timetable_parser = VAMKTimetableParser.new(table_source, cell_parser)
 
     logger.info { "Parsing timetable" }

@@ -18,24 +18,31 @@ html lang="en"
     = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
     = javascript_include_tag "application", "data-turbolinks-track" => true
 
-
-
   body
     .navbar.navbar-fluid-top
       .navbar-inner
         .container-fluid
-          a.btn.btn-navbar data-target=".nav-collapse" data-toggle="collapse"
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
           a.brand href="#"API Status
-          .container-fluid.nav-collapse
-            ul.nav
-              li= link_to "Link 1", "/path1"
-              li= link_to "Link 2", "/path2"
-              li= link_to "Link 3", "/path3"
 
     .container-fluid
+      table.table.table-bordered
+        thead
+          tr
+            th id
+            th group
+            th start_date
+            th end_date
+            th schedules
+            th updated_at
+        tbody
+          - for timetable in @timetables do
+            tr
+              td = timetable.id
+              td = timetable.group
+              td = timetable.start_date
+              td = timetable.end_date
+              td = timetable.schedules.count
+              td = timetable.updated_at
 
       .row-fluid
         .span9
