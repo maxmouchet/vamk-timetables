@@ -1,5 +1,5 @@
 (function() {
-  var addCourse, bindChangeGroup, bindRemoveCourse, domain, format, listIds, recupSave;
+  var addCourse, addWeekHours, bindChangeGroup, bindRemoveCourse, domain, format, getDay, getHour, getMinute, getMonth, listIds, recupSave, totalTime;
 
   scheduler.config.readonly = true;
 
@@ -7,12 +7,14 @@
 
   scheduler.config.last_hour = 20;
 
+  totalTime = 0;
+
   scheduler.init('scheduler_here', new Date(), "week");
 
   if (window.location.host !== "api.olamas.me") {
     domain = "http://api.olamas.me/";
   } else {
-    domain = "";
+    domain = "legacy_api/";
   }
 
   recupSave = function(data) {
@@ -125,6 +127,7 @@
           for (_j = 0, _len1 = listEvents.length; _j < _len1; _j++) {
             cEvent = listEvents[_j];
             listIds[idCourse].push(cEvent.id);
+            console.log(cEvent.start_date);
           }
           $("#coursesPicker").select2("val", "");
           $("#coursesPicker").prop("disabled", null);
@@ -141,6 +144,27 @@
       bindChangeGroup();
       return this;
     }
+  };
+
+  addWeekHours = function(currentMinDate, currentMaxDate, event) {
+    return this;
+  };
+
+  getHour = function(date) {
+    console.log(date);
+    return date.split(" ");
+  };
+
+  getMinute = function(date) {
+    return date.split(" "[4].split(":"[1]));
+  };
+
+  getDay = function(date) {
+    return date.split(" "[2]);
+  };
+
+  getMonth = function(date) {
+    return date.split(" "[1]);
   };
 
   $("#coursesPicker").on("change", function(e) {
