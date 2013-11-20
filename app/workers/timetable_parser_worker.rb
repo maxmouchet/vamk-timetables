@@ -5,6 +5,7 @@ java_import 'com.maxmouchet.vamk.timetables.parser.table.HTMLTableParser'
 java_import 'com.maxmouchet.vamk.timetables.parser.table.sources.RemoteTableSource'
 java_import 'com.maxmouchet.vamk.timetables.parser.table.settings.Settings'
 java_import 'com.maxmouchet.vamk.timetables.parser.timetable.cell.vamk.ITVAMKCellParser'
+java_import 'com.maxmouchet.vamk.timetables.parser.timetable.cell.vamk.IBVAMKCellParser'
 java_import 'com.maxmouchet.vamk.timetables.parser.timetable.vamk.VAMKTimetableParser'
 
 class TimetableParserWorker
@@ -50,6 +51,3 @@ class TimetableParserWorker
 
   end
 end
-
-# w = TimetableParserWorker.new
-# w.perform('http://www.bet.puv.fi/schedule/P1_13_14/x3008i-it-4n13887.htm')
