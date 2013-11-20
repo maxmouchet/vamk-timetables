@@ -2,12 +2,14 @@ scheduler.config.readonly = true
 scheduler.config.first_hour = 8;
 scheduler.config.last_hour = 20;
 
+totalTime = 0
+
 scheduler.init('scheduler_here', new Date(),"week")
 
 if window.location.host isnt "api.olamas.me"
-  domain = "http://api.olamas.me/"
+  domain = "http://146.185.153.218/legacy_api/"
 else
-  domain = ""
+  domain = "legacy_api/"
 
 recupSave = (data)->
   if location.host isnt ""
@@ -70,6 +72,7 @@ addCourse = (idCourse, name, group)->
         listIds[idCourse] = []
         for cEvent in listEvents
           listIds[idCourse].push(cEvent.id)
+          console.log cEvent.start_date
         $("#coursesPicker").select2 "val", ""
         $("#coursesPicker").prop "disabled", null
         bindRemoveCourse()
@@ -82,6 +85,23 @@ addCourse = (idCourse, name, group)->
     bindRemoveCourse()
     bindChangeGroup()
     @
+
+addWeekHours = (currentMinDate, currentMaxDate, event)->
+  @
+
+getHour = (date)->
+  console.log date
+  date.split(" ")
+
+getMinute = (date)->
+  date.split " "[4].split ":"[1]
+
+getDay = (date)->
+  date.split " "[2]
+
+getMonth = (date)->
+  date.split " "[1]
+
 
 $("#coursesPicker").on "change", (e)-> 
   $("#coursesPicker").attr "disabled", ""
