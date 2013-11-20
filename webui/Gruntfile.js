@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     coffee: {
       compile: {
         files: {
-          '../api/public/js/main.js': 'js/main.coffee'
+          '../public/js/main.js': 'js/main.coffee'
         }
       }
     },
@@ -21,7 +21,7 @@ module.exports = function(grunt) {
           ]
         },
         files: {
-          '../api/public/css/style.css': 'style/source.styl', // 1:1 compile
+          '../public/css/style.css': 'style/source.styl', // 1:1 compile
         }
       }
     },
@@ -30,7 +30,7 @@ module.exports = function(grunt) {
         options: {
           livereload: true,
           port: 8080,
-          base: '../api/public',
+          base: '../public',
         }
       }
     },
@@ -43,7 +43,7 @@ module.exports = function(grunt) {
     copy: {
       main:{
         src: ['vendor/**', 'index.html'],
-        dest: '../api/public/'
+        dest: '../public/'
       }
     },
     watch: {

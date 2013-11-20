@@ -12,7 +12,7 @@
   scheduler.init('scheduler_here', new Date(), "week");
 
   if (window.location.host !== "api.olamas.me") {
-    domain = "http://api.olamas.me/";
+    domain = "http://146.185.153.218/legacy_api/";
   } else {
     domain = "legacy_api/";
   }
