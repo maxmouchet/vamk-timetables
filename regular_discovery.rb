@@ -2,6 +2,7 @@ require 'java'
 require "#{ Rails.root }/lib/scala/target/scala-2.10/vamk-timetables-workers-assembly-1.0.jar"
 
 java_import 'com.maxmouchet.vamk.timetables.parser.list.week.vamk.ITVAMKWeekListParser'
+java_import 'com.maxmouchet.vamk.timetables.parser.list.week.vamk.IBVAMKWeekListParser'
 
 it_week_list_parser = ITVAMKWeekListParser.new
 it_weeks = it_week_list_parser.parse('http://www.bet.puv.fi/schedule/P1_13_14/mfw.htm')

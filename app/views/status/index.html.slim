@@ -32,7 +32,6 @@ html lang="en"
             th group
             th start_date
             th end_date
-            th schedules
             th updated_at
         tbody
           - for timetable in @timetables do
@@ -41,7 +40,6 @@ html lang="en"
               td = timetable.group
               td = timetable.start_date
               td = timetable.end_date
-              td = timetable.schedules.count
               td = timetable.updated_at
 
       .row-fluid

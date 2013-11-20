@@ -41,6 +41,7 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'sidekiq', '~> 2.16'
 gem 'sinatra', '>= 1.3.0', :require => nil
+gem 'sinatra-contrib', :require => nil
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -50,8 +51,13 @@ end
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
-gem 'foreman'
-gem 'puma'
+group :server do
+  gem 'foreman'
+
+  platform :jruby do
+    gem 'trinidad', :require => false
+  end
+end
 
 gem 'newrelic_rpm'
 
