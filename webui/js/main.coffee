@@ -6,10 +6,10 @@ totalTime = 0
 
 scheduler.init('scheduler_here', new Date(),"week")
 
-if window.location.host isnt "api.olamas.me"
+###if window.location.host isnt "api.olamas.me"
   domain = "http://api.olamas.me/"
-else
-  domain = "legacy_api/"
+else###
+domain = "legacy_api/"
 
 recupSave = (data)->
   if location.host isnt ""
