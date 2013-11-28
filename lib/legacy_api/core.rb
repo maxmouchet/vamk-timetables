@@ -21,15 +21,26 @@ module LegacyAPI
     end
 
     get '/courses/:id' do
-      schedules = []
-      course = Course.find(params[:id])
-      results = course.schedules.where(group: params[:group]).distinct if params[:group]
-      results ||= course.schedules.distinct
+      @course ||= settings.cache.fetch("course:#{params[:id]}") do
+        course = Course.find(params[:id])
+        settings.cache.set("course:#{params[:id]}", course, 5 * 60) # cache for 5 min.
+        course
+      end
 
-      results.each do |schedule|
+      @results ||= settings.cache.fetch("course:schedules:#{params[:id]}:#{params[:group]}") do
+        course = Course.find(params[:id])
+        results = course.schedules.where(group: params[:group]).distinct if params[:group]
+        results ||= course.schedules.distinct
+        settings.cache.set("course:schedules:#{params[:id]}:#{params[:group]}", results, 5 * 60) # cache for 5 min.
+        results
+      end
+
+      schedules = []
+
+      @results.each do |schedule|
         schedules << {
             id: schedule.id,
-            text: "#{ course.name.strip }\n#{ schedule.room.strip }",
+            text: "#{ @course.name.strip }\n#{ schedule.room.strip }",
             start_date: schedule.start_datetime.strftime('%m/%d/%Y %H:%M'),
             end_date: schedule.end_datetime.strftime('%m/%d/%Y %H:%M')
           }
