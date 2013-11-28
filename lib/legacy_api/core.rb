@@ -4,13 +4,20 @@ require 'sinatra/json'
 module LegacyAPI
   class Core < Sinatra::Base
 
+    set :cache, Dalli::Client.new
+
     before do
       # Enable CORS
       headers['Access-Control-Allow-Origin'] = '*'
     end
 
     get '/courses' do
-      json Course.select('id', 'name')
+      @courses ||= settings.cache.fetch('courses') do
+        courses = Course.select('id', 'name')
+        settings.cache.set('courses', @courses, 5 * 60) # cache for 5 min.
+        courses
+      end
+      json @courses
     end
 
     get '/courses/:id' do

@@ -6,6 +6,7 @@ gem 'rails', '4.0.0'
 gem 'rails_12factor'
 
 gem 'pg'
+gem 'dalli'
 
 gem 'sass-rails', '~> 4.0.0'
 gem 'slim-rails'
