@@ -60,7 +60,10 @@ addCourse = (idCourse, name, group)->
       newSelect = $("<select />")
       if listGroup.length isnt 1
         for dGroup in listGroup
-          newSelect.append($("<option />").html(dGroup))
+          if dGroup == group
+            newSelect.append($("<option selected />").html(dGroup))
+          else
+            newSelect.append($("<option />").html(dGroup))
       else
         newSelect.attr("disabled", "")
         newSelect.append($("<option />").html(listGroup[0]))

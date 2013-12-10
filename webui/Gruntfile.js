@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     coffee: {
       compile: {
         files: {
-          '../public/js/main.js': 'js/main.coffee'
+          '../public/assets/js/main.js': 'js/main.coffee'
         }
       }
     },
@@ -21,7 +21,7 @@ module.exports = function(grunt) {
           ]
         },
         files: {
-          '../public/css/style.css': 'style/source.styl', // 1:1 compile
+          '../public/assets/css/style.css': 'style/source.styl', // 1:1 compile
         }
       }
     },
@@ -42,8 +42,10 @@ module.exports = function(grunt) {
     },*/
     copy: {
       main:{
-        src: ['vendor/**', 'index.html'],
-        dest: '../public/'
+        files: [
+          {expand: true, src: ['vendor/**'], dest: '../public/asset/'},
+          {expand: true, src: ['index.html'], dest: '../public/'}
+        ]
       }
     },
     watch: {

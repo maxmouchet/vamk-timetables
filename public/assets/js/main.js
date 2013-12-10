@@ -109,7 +109,11 @@
         if (listGroup.length !== 1) {
           for (_i = 0, _len = listGroup.length; _i < _len; _i++) {
             dGroup = listGroup[_i];
-            newSelect.append($("<option />").html(dGroup));
+            if (dGroup === group) {
+              newSelect.append($("<option selected />").html(dGroup));
+            } else {
+              newSelect.append($("<option />").html(dGroup));
+            }
           }
         } else {
           newSelect.attr("disabled", "");
