@@ -21,13 +21,13 @@ def add_schedule(schedule)
 end
 
 urls = []
-urls << 'http://api.olamas.me/courses/1560?group=I-IT-4N1'
-urls << 'http://api.olamas.me/courses/1908?group=I-IT-3N1'
-urls << 'http://api.olamas.me/courses/1563?group=I-IT-4N2'
-urls << 'http://api.olamas.me/courses/1863?group=I-IT-3N1'
-urls << 'http://api.olamas.me/courses/1552?group=I-IT-3N1'
-urls << 'http://api.olamas.me/courses/1559?group=I-IT-4N1'
-urls << 'http://api.olamas.me/courses/1907?group=I-IT-3N1'
+urls << 'http://146.185.153.218/legacy_api/courses/1151?group=I-IT-2N1'
+urls << 'http://146.185.153.218/legacy_api/courses/1180?group=I-IT-2N2'
+urls << 'http://146.185.153.218/legacy_api/courses/1140?group=I-IT-2N2'
+urls << 'http://146.185.153.218/legacy_api/courses/1213?group=I-IT-2N1'
+urls << 'http://146.185.153.218/legacy_api/courses/1095?group=I-IT-4N1'
+urls << 'http://146.185.153.218/legacy_api/courses/1110?group=I-IT-3N1'
+urls << 'http://146.185.153.218/legacy_api/courses/1101?group=I-IT-3N1'
 
 urls.each do |url|
   schedules = HTTParty.get(url)
