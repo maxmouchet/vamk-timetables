@@ -1,1 +1,0 @@
-web: trinidad -e ${RACK_ENV:-development} -p $PORT
