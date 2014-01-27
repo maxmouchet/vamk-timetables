@@ -145,7 +145,7 @@ deleteCourseFromScheduler = (course) ->
 
 # Methods for loading and saving data to the URL
 loadFromUrl = (courses) ->
-  return if location.host == ''
+  return if location.search == ""
 
   savedCourses = location.search.split('=')[1].split(',')
 
