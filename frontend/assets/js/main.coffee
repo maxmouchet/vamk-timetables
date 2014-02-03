@@ -197,6 +197,8 @@ $('#coursesPicker').on 'change', (e) ->
 getCourses(loadFromUrl)
 getCourses(populatePicker)
 
+$('#status_link').popover()
+
 #
 # Idea: Cache list in local storage so it loads faster next times.
 # TODO: Manage previous/next states
