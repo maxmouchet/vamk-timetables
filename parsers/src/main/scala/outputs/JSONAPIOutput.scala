@@ -43,7 +43,7 @@ class JSONAPIOutput extends Output {
       }
     }
 
-    val apiDir = new File("api")
+    val apiDir = new File(args(0))
     apiDir.mkdir()
 
     val coursesDir = new File(apiDir.getPath + "/courses")
