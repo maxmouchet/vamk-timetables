@@ -1,5 +1,4 @@
 import configuration.Scenario
-import java.io.FileNotFoundException
 import org.json4s._
 import org.json4s.native.JsonMethods._
 import org.slf4j.LoggerFactory
@@ -14,7 +13,13 @@ object Runner extends App {
 
   def logger = LoggerFactory.getLogger(this.getClass)
 
-  val scenarios = parse(Source.fromFile(args(0)).mkString).extract[Array[Scenario]]
+  var scenarios = Array.empty[Scenario]
+
+  if (args.length > 0) {
+    scenarios = parse(Source.fromFile(args(0)).mkString).extract[Array[Scenario]]
+  } else {
+    scenarios = parse(sys.env("RUNNER_CONFIGURATION")).extract[Array[Scenario]]
+  }
 
   if (scenarios.isEmpty) {
     logger.warn("No scenario found")
