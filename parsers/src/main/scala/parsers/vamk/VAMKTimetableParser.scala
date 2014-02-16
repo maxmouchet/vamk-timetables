@@ -89,7 +89,7 @@ class VAMKTimetableParser(tableParser: TableParser, cellParser: CellParser) {
             }
           }
         } catch {
-          case e: Exception => System.err.println("Error (" + e.toString + ") while parsing: " + cell)
+          case e: Exception => System.err.println("Error (" + e.toString + ") while parsing: " + cell.trim)
         }
       }
     }
