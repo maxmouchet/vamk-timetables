@@ -6,6 +6,12 @@ import parsers.base.{TableParser, CellParser}
 import parsers.ParserHelper
 import models.{TimeInterval, Schedule}
 
+/** Parse a timetable.
+  *
+  * '''University:''' Vaasa University of Applied Sciences (VAMK).
+  * @param tableParser TableParser to use.
+  * @param cellParser CellParser to use.
+  */
 class VAMKTimetableParser(tableParser: TableParser, cellParser: CellParser) {
 
   val periodPattern = new Regex( """(\d{1,2}).(\d{1,2}).(\d{4})\.+(\d{1,2}).(\d{1,2}).(\d{4})""", "startDay", "startMonth", "startYear", "endDay", "endMonth", "endYear")

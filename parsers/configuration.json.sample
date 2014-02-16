@@ -1,0 +1,26 @@
+[
+  {
+    "workflow": {
+      "name": "workflows.vamk.ITVAMKPeriodWorkflow",
+      "args": [
+        "http://www.bet.puv.fi/schedule/kevat2014/mfw.htm"
+      ]
+    },
+    "output": {
+      "name": "outputs.ConsoleOutput",
+      "args": []
+    }
+  },
+  {
+    "workflow": {
+      "name": "workflows.vamk.IBVAMKTimetableWorkflow",
+      "args": [
+        "http://www.bet.puv.fi/studies/lukujarj/LV_13_14/K2014/x3027t-ib-ex3354.htm"
+      ]
+    },
+    "output": {
+      "name": "outputs.ConsoleOutput",
+      "args": []
+    }
+  }
+]

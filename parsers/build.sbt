@@ -12,4 +12,4 @@ libraryDependencies += "org.json4s" %% "json4s-native" % "3.2.6"
 
 libraryDependencies += "org.json4s" % "json4s-ext_2.10" % "3.2.6"
 
-libraryDependencies += "org.xerial" % "sqlite-jdbc" % "3.7.2"
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13"
