@@ -28,7 +28,7 @@ object Runner extends App {
 
     logger.info("Executing workflow " + scenario.workflow.name + " with output " + scenario.output.name)
     try {
-    output.execute(scenario.output.args, workflow.run(scenario.workflow.args).toArray)
+      output.execute(scenario.output.args, workflow.run(scenario.workflow.args).toArray)
     } catch {
       case e: Exception => logger.error("Workflow " + scenario.workflow.name + " failed: " + e.toString)
     }
