@@ -11,6 +11,9 @@ scheduler.config.last_hour  = 20
 get = (path, callback) ->
   $.get "#{ apiPrefix }/#{ path }", callback
 
+getStatus = (callback) ->
+  get 'status.json', callback
+
 getCourses = (callback) ->
   get 'courses.json', callback
 
@@ -61,6 +64,14 @@ class CachedCourse
   setSelectedGroup: (group) -> @selectedGroup = group
 
 # UI methods
+# Enable the status popover
+enableStatusPopover = (status) ->
+  $('#status_link').popover({
+    html: true,
+    content: "<strong>Last update: </strong>#{ status.update_time }<br /><strong>Courses: </strong>#{ status.courses_count }<br /><strong>Schedules: </strong>#{ status.schedules_count }"
+  })
+
+
 # Populate the picker from an array of courses
 populatePicker = (data) ->
   format = (item) -> item.name
@@ -194,10 +205,10 @@ $('#coursesPicker').on 'change', (e) ->
     unless selectedCourses.exists(e.added.id)
       selectedCourses.add(new CachedCourse(e.added.id, e.added.name, groups))
 
+getStatus(enableStatusPopover)
+
 getCourses(loadFromUrl)
 getCourses(populatePicker)
-
-$('#status_link').popover()
 
 #
 # Idea: Cache list in local storage so it loads faster next times.
