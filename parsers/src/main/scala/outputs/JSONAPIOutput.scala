@@ -5,6 +5,7 @@ import models.{IndexedCourse, IndexedSchedule, Schedule}
 import java.io.{PrintWriter, File}
 import scala.collection.mutable
 import org.json4s.native.Serialization.write
+import java.util.Date
 
 /** Generate a JSON API from the given schedules. */
 class JSONAPIOutput extends Output {
@@ -79,6 +80,11 @@ class JSONAPIOutput extends Output {
       writer.close()
     }
 
+    // Generate the status file (/status.json)
+    val status = Map("update_time" -> new Date().toString, "courses_count" -> indexedCourses.length, "schedules_count" -> indexedSchedules.length)
+    writer = new PrintWriter(apiDir.getPath + "/status.json", "UTF-8")
+    writer.println(write(status))
+    writer.close()
   }
 
 }
