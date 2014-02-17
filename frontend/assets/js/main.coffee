@@ -165,7 +165,7 @@ loadFromUrl = (courses) ->
     group = savedCourse.split(':')[1]
 
     for course in courses
-      if shorten(course.name) == shortName
+      if shorten(course.name).toLowerCase() == shortName.toLowerCase()
         populateCachedCourse course.id, course.name, group, (course) -> selectedCourses.add(course)
 
 updateUrl = (dummy) ->
