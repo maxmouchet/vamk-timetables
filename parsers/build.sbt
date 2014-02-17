@@ -19,3 +19,5 @@ libraryDependencies += "org.json4s" % "json4s-ext_2.10" % "3.2.6"
 libraryDependencies += "com.amazonaws" % "aws-java-sdk" % "1.6.12"
 
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.0.13"
+
+libraryDependencies += "org.scalatest" % "scalatest_2.10" % "2.0" % "test"
