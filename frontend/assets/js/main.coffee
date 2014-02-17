@@ -182,7 +182,7 @@ shorten = (name) ->
 populateCachedCourse = (courseId, courseName, selectedGroup, callback) ->
   getGroups courseId, (groups) ->
     course = new CachedCourse(courseId, courseName, groups)
-    course.setSelectedGroup(selectedGroup)
+    course.setSelectedGroup(selectedGroup) if selectedGroup != undefined
     callback(course)
 
 # Application
