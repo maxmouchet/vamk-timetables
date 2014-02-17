@@ -5,7 +5,7 @@ import parsers.base.CellParser
 
 object IBVAMKCellParser extends CellParser {
 
-  val coursePattern = new Regex( """^((\w+-(\w+)\s+)|((ALOIT|VARAU)\w+\s+))?(.+)""")
+  val coursePattern = new Regex( """^\s*((\w+-(\w+)\s+)|((ALOIT|VARAU)\w+\s+))?(.+)""")
 
   def getCourse(cell: String): String = coursePattern.findFirstMatchIn(cell).get.group(6).trim
 

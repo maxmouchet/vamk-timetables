@@ -3,9 +3,9 @@ package parsers.vamk
 import scala.util.matching.Regex
 import parsers.base.CellParser
 
-object ITVAMKCellParser extends CellParser{
+object ITVAMKCellParser extends CellParser {
 
-  val coursePattern = new Regex( """^((\w+-(\w+)\s+)|((ALOIT|VARAU)\w+\s+))?(.+)""")
+  val coursePattern = new Regex( """^\s*((\w+-(\w+)\s+)|((ALOIT|VARAU)\w+\s+))?(.+)""")
 
   def getCourse(cell: String): String = coursePattern.findFirstMatchIn(cell).get.group(6).trim
 
