@@ -2,7 +2,7 @@ package parsers.vamk
 
 import org.joda.time.LocalDate
 import scala.util.matching.Regex
-import parsers.base.{TableParser, CellParser}
+import parsers.base.{TimetableParser, TableParser, CellParser}
 import parsers.ParserHelper
 import models.{TimeInterval, Schedule}
 
@@ -12,7 +12,7 @@ import models.{TimeInterval, Schedule}
   * @param tableParser TableParser to use.
   * @param cellParser CellParser to use.
   */
-class VAMKTimetableParser(tableParser: TableParser, cellParser: CellParser) {
+class VAMKTimetableParser(tableParser: TableParser, cellParser: CellParser) extends TimetableParser {
 
   val periodPattern = new Regex( """(\d{1,2}).(\d{1,2}).(\d{4})\.+(\d{1,2}).(\d{1,2}).(\d{4})""", "startDay", "startMonth", "startYear", "endDay", "endMonth", "endYear")
   val groupPattern = new Regex( """(\w-\w{2,3}-\w{1,3}-?\d?)""")
