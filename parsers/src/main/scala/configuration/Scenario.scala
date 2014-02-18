@@ -1,3 +1,3 @@
 package configuration
 
-case class Scenario (workflow: ObjectConfiguration, output: ObjectConfiguration)
+case class Scenario (workflows: Array[ObjectConfiguration], outputs: Array[ObjectConfiguration])
