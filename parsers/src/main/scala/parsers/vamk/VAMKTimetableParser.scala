@@ -5,6 +5,7 @@ import scala.util.matching.Regex
 import parsers.base.{TimetableParser, TableParser, CellParser}
 import parsers.ParserHelper
 import models.{TimeInterval, Schedule}
+import org.slf4j.LoggerFactory
 
 /** Parse a timetable.
   *
@@ -18,6 +19,8 @@ class VAMKTimetableParser(tableParser: TableParser, cellParser: CellParser) exte
   val groupPattern = new Regex( """(\w-\w{2,3}-\w{1,3}-?\d?)""")
   val datePattern = new Regex( """([^\d]+)(\d{1,2}).(\d{1,2}).(\d{4})""", "name", "day", "month", "year")
   val timePattern = new Regex( """(\d{1,2}):(\d{2})-(\d{1,2}):(\d{2})""", "startHour", "startMinute", "endHour", "endMinute")
+
+  def logger = LoggerFactory.getLogger(this.getClass)
 
   def parse: Array[Schedule] = {
     var schedules = Vector.empty[Schedule]
@@ -89,7 +92,7 @@ class VAMKTimetableParser(tableParser: TableParser, cellParser: CellParser) exte
             }
           }
         } catch {
-          case e: Exception => System.err.println("Error (" + e.toString + ") while parsing: " + cell.trim)
+          case e: Exception => logger.error(e.toString + " while parsing: " + cell.trim)
         }
       }
     }
