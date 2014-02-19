@@ -174,7 +174,7 @@ updateUrl = (dummy) ->
   for course in selectedCourses.array
     url += shorten(course.name) + ':' + course.selectedGroup + ','
 
-  window.history.pushState(dummy, 'dummy', url);
+  window.history.pushState(dummy, 'dummy', url)
 
 shorten = (name) ->
   name.replace(/\s+|,|\.|:/g, '')
