@@ -1,0 +1,17 @@
+{
+  "name": "vamk-timetables",
+  "description": "Better timetables for the Vaasa University of Applied Sciences",
+  "private": true,
+  "dependencies": {
+    "coffee-script": "~1.7",
+    "gulp": "~3",
+    "gulp-clean": "*",
+    "gulp-coffee": "*",
+    "gulp-coffeelint": "*",
+    "gulp-concat": "*",
+    "gulp-livereload": "*",
+    "gulp-rename": "*",
+    "gulp-sass": "*",
+    "gulp-uglify": "*"
+  }
+}

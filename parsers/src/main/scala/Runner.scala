@@ -1,9 +1,11 @@
 import configuration.Scenario
+import models.Schedule
 import org.json4s._
 import org.json4s.native.JsonMethods._
 import org.slf4j.LoggerFactory
 import outputs.base.Output
 import scala.Array
+import scala.collection.mutable
 import scala.io.Source
 import workflows.base.Workflow
 
@@ -28,14 +30,30 @@ object Runner extends App {
   }
 
   for (scenario <- scenarios) {
-    val workflow = Class.forName(scenario.workflow.name).newInstance().asInstanceOf[Workflow]
-    val output = Class.forName(scenario.output.name).newInstance().asInstanceOf[Output]
+    val schedules = mutable.Set.empty[Schedule]
 
-    logger.info("Executing workflow " + scenario.workflow.name + " with output " + scenario.output.name)
-    try {
-      output.execute(scenario.output.args, workflow.run(scenario.workflow.args).toArray)
-    } catch {
-      case e: Exception => logger.error("Workflow " + scenario.workflow.name + " failed: " + e.toString)
+    for (workflowConfiguration <- scenario.workflows) {
+      val workflow = Class.forName(workflowConfiguration.name).newInstance().asInstanceOf[Workflow]
+
+      logger.info("Executing workflow " + workflowConfiguration.name)
+
+      try {
+        schedules ++= workflow.run(workflowConfiguration.args)
+      } catch {
+        case e: Exception => logger.error("Workflow " + workflowConfiguration.name + " failed: " + e.toString)
+      }
+    }
+
+    for (outputConfiguration <- scenario.outputs) {
+      val output = Class.forName(outputConfiguration.name).newInstance().asInstanceOf[Output]
+
+      logger.info("Executing output " + outputConfiguration.name)
+
+      try {
+        output.execute(outputConfiguration.args, schedules.toArray)
+      } catch {
+        case e: Exception => logger.error("Output " + outputConfiguration.name + " failed: " + e.toString)
+      }
     }
   }
 }

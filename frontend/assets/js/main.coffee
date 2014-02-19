@@ -165,7 +165,7 @@ loadFromUrl = (courses) ->
     group = savedCourse.split(':')[1]
 
     for course in courses
-      if shorten(course.name) == shortName
+      if shorten(course.name).toLowerCase() == shortName.toLowerCase()
         populateCachedCourse course.id, course.name, group, (course) -> selectedCourses.add(course)
 
 updateUrl = (dummy) ->
@@ -174,7 +174,7 @@ updateUrl = (dummy) ->
   for course in selectedCourses.array
     url += shorten(course.name) + ':' + course.selectedGroup + ','
 
-  window.history.pushState(dummy, 'dummy', url);
+  window.history.pushState(dummy, 'dummy', url)
 
 shorten = (name) ->
   name.replace(/\s+|,|\.|:/g, '')
@@ -182,7 +182,7 @@ shorten = (name) ->
 populateCachedCourse = (courseId, courseName, selectedGroup, callback) ->
   getGroups courseId, (groups) ->
     course = new CachedCourse(courseId, courseName, groups)
-    course.setSelectedGroup(selectedGroup)
+    course.setSelectedGroup(selectedGroup) if selectedGroup != undefined
     callback(course)
 
 # Application
