@@ -1,4 +1,55 @@
-<!-- @include _header -->
+<!DOCTYPE html>
+<!--
+  VAMK Timetables
+  Timetables for the Vaasa University of Applied Sciences
+
+  @maxmouchet and @sikado
+  github.com/maxmouchet/vamk-timetables
+-->
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="http://localhost:35729/livereload.js?snipver=1"></script>
+
+  <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/dhtmlxscheduler.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/select2.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/select2-bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/main.min.css">
+
+  <link href="<!-- @path favicon.ico -->" rel="shortcut icon">
+  <link href="<!-- @path apple-touch-icon.png -->" rel="apple-touch-icon">
+
+  <title>VAMK Timetables</title>
+
+  <script type="text/javascript">
+    window.qbaka || (function(a,c){a.__qbaka_eh=a.onerror;a.__qbaka_reports=[];a.onerror=function(){a.__qbaka_reports.push(arguments);if(a.__qbaka_eh)try{a.__qbaka_eh.apply(a,arguments)}catch(b){}};a.onerror.qbaka=1;a.qbaka={report:function(){a.__qbaka_reports.push([arguments, new Error()]);},customParams:{},set:function(a,b){qbaka.customParams[a]=b},exec:function(a){try{a()}catch(b){qbaka.reportException(b)}},reportException:function(){}};var b=c.createElement("script"),e=c.getElementsByTagName("script")[0],d=function(){e.parentNode.insertBefore(b,e)};b.type="text/javascript";b.async=!0;b.src=('https:'==document.location.protocol?'https:':'http:')+'//cdn.qbaka.net/reporting.js';"[object Opera]"==a.opera?c.addEventListener("DOMContentLoaded",d):d();qbaka.key="56531408b91e09206736537fd8617f26"})(window,document);qbaka.options={autoStacktrace:1,trackEvents:1};
+  </script>
+
+</head>
+
+<body>
+
+  <header>
+    <p class="header_text">
+      <i class="fa fa-calendar"></i>&nbsp;&nbsp;Timetables for the Vaasa University of Applied Sciences. By <a href="https://github.com/maxmouchet" target="_blank">@maxmouchet</a> &amp; <a href="https://github.com/sikado" target="_blank">@sikado</a>.
+      <span class="pull-right">
+        <i class="fa fa-info-circle"></i>&nbsp;<a id="status_link" href="javascript:void(0)" data-placement="bottom" data-html="true">Status</a>&nbsp;
+        <i class="fa fa-bolt"></i>&nbsp;<a href="http://docs.vamktimetables.apiary.io" target="_blank">API</a>&nbsp;
+        <i class="fa fa-github"></i>&nbsp;<a href="https://github.com/maxmouchet/vamk-timetables" target="_blank">GitHub</a>
+      </span>
+    </p>
+  </header>
+
+  <div class="alert">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>Disclaimer:</strong> Until the parsers gets a consistent test suite data updates will be triggered manually. As a consequence the schedules presented here may not reflect the actual official timetables. Feel free to <a href="http://www.bet.puv.fi/schedule/kevat2014/mfw.htm">check them</a> in case of doubt.
+  </div>
 
   <div class="container-fluid">
     <div class="row-fluid">
@@ -23,4 +74,12 @@
     </div>
   </div>
 
-<!-- @include _footer -->
+  <script src='assets/js/jquery-1.11.0.min.js'></script>
+  <script src='assets/js/bootstrap.min.js'></script>
+  <script src='assets/js/select2.min.js'></script>
+  <script src='assets/js/moment.min.js'></script>
+  <script src='assets/js/dhtmlxscheduler.js'></script>
+  <script src='assets/js/all.min.js'></script>
+</body>
+
+</html>
