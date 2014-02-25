@@ -1,7 +1,7 @@
 # [VAMK Timetables](http://timetables.maxmouchet.com)
 
 [![Build Status](http://img.shields.io/travis/maxmouchet/vamk-timetables.svg)](https://travis-ci.org/maxmouchet/vamk-timetables)
-![License](http://img.shields.io/badge/license-MIT-blue.svg)
+[![License](http://img.shields.io/badge/license-MIT-blue.svg)](#)
 
 Better timetables for the Vaasa University of Applied Sciences.
 
