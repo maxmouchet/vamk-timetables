@@ -30,6 +30,4 @@ See the [documentation on Apiary](http://docs.vamktimetables.apiary.io).
 ### Scenarios
 
 ## Planned features
-- iCal export (WIP in `add_ical_export` branch)
-
 
