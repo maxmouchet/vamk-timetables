@@ -1,6 +1,7 @@
 # Configuration
 # API calls configuration
 apiPrefix = 'api'
+# apiPrefix = 'http://timetables.maxmouchet.com/api'
 
 # Scheduler configuration
 scheduler.config.readonly = true
@@ -185,6 +186,32 @@ populateCachedCourse = (courseId, courseName, selectedGroup, callback) ->
     course.setSelectedGroup(selectedGroup) if selectedGroup != undefined
     callback(course)
 
+# Methods for generating and saving the ics file
+generateiCal = ->
+  calendar = new iCalendar.CalendarBuilder
+
+  for course in selectedCourses.array
+    for schedule in course.schedules
+      eventBuilder = new iCalendar.EventBuilder
+      eventBuilder.setSummary("#{ schedule.courseName } #{ schedule.room } #{ schedule.professor }")
+      eventBuilder.setStartDate(moment(schedule.startDateTime).toDate())
+      eventBuilder.setEndDate(moment(schedule.endDateTime).toDate())
+      calendar.addEvent(eventBuilder.getEvent())
+
+  return calendar.getCalendar()
+
+saveiCal = ->
+  calendar = generateiCal()
+
+  # Code from http://stackoverflow.com/a/18197341/1262501
+  pom = document.createElement('a');
+  pom.setAttribute('href', 'data:text/calendar;charset=utf-8,' + encodeURIComponent(calendar.toString()))
+  pom.setAttribute('download', 'VAMK.ics')
+
+  document.body.appendChild(pom)
+  pom.click()
+  document.body.removeChild(pom)
+
 # Application
 scheduler.init('scheduler_here', new Date, 'week')
 
@@ -209,6 +236,9 @@ getStatus(enableStatusPopover)
 
 getCourses(loadFromUrl)
 getCourses(populatePicker)
+
+$('#downloadLink a').on 'click', ->
+  saveiCal()
 
 #
 # Idea: Cache list in local storage so it loads faster next times.
