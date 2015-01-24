@@ -1,4 +1,4 @@
-# [VAMK Timetables](http://timetables.maxmouchet.com)
+# VAMK Timetables
 
 [![Build Status](http://img.shields.io/travis/maxmouchet/vamk-timetables.svg)](https://travis-ci.org/maxmouchet/vamk-timetables)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](#)
