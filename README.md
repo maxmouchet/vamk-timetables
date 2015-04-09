@@ -11,6 +11,8 @@ There is several problems to this approach :
 - You can't export them easily to Google Calendar or your favorite calendar app.  
 - It's not mobile friendly.
 
+**Project Status :** Done. I don't plan to work on this anymore.
+
 ## Features
 - JSON API for courses, groups, and schedules.
 - Web user interface for creating and sharing custom timetables.
@@ -18,16 +20,3 @@ There is several problems to this approach :
 
 ## API
 See the [documentation on Apiary](http://docs.vamktimetables.apiary.io).
- 
-
-## Deployment
-
-## Extension
-### Workflows
-
-### Outputs
-
-### Scenarios
-
-## Planned features
-
